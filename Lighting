@@ -1,0 +1,103 @@
+int next;
+int nextPin = 0;
+int prev;
+int prevPin = 3;
+int effect = 0;
+
+void setup() {
+  // put your setup code here, to run once:
+  
+  pinMode(13, OUTPUT);
+  pinMode(12, OUTPUT);
+  pinMode(11, OUTPUT); 
+  pinMode(10, OUTPUT);
+  pinMode(9, OUTPUT);
+
+  pinMode(nextPin, INPUT);
+  pinMode(prevPin, INPUT);
+  Serial.begin(9600);
+}
+
+
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  next = digitalRead(nextPin);
+  prev = digitalRead(prevPin);
+  
+  if (next == 1){
+    effect++;
+  }
+  else if (prev == 1){
+    effect = effect - 1;
+  }
+  Serial.println(effect);
+  Serial.println(next);
+  Serial.println(prev);
+  
+  if (effect == 1){
+      allOff();
+      digitalWrite(13, HIGH);
+      Serial.println("thing 1");
+    }
+  else if (effect == 2){
+      allOff();
+      digitalWrite(12, HIGH);
+      Serial.println("thing 2");
+    }
+   else if (effect == 3){
+      allOff();
+      digitalWrite(13, HIGH);
+      Serial.println("thing 3");
+    }
+   else if (effect == 4){
+      allOff();
+      lightning();
+      allOff();
+      while (next == 0 && prev == 0){
+        next = digitalRead(nextPin);
+        prev = digitalRead(prevPin);
+      }
+   }
+   else{
+    allOff();
+   }
+
+    delay(300);
+}      
+
+void lightning(){
+  digitalWrite(13, HIGH);
+  delay(50);
+  digitalWrite(13, LOW); 
+  digitalWrite(12, HIGH);
+  delay(50);
+  digitalWrite(12, LOW);
+   digitalWrite(11, HIGH);
+  delay(50);
+  digitalWrite(11, LOW);
+  digitalWrite(10, HIGH);
+  delay(50);
+  digitalWrite(10, LOW); 
+  digitalWrite(9, HIGH);
+  delay(50);
+  digitalWrite(9, LOW);
+  delay(1000);   
+  allOn();
+}
+
+void allOff(){
+  digitalWrite(13, LOW);
+  digitalWrite(12, LOW);
+  digitalWrite(11, LOW);
+  digitalWrite(10, LOW);
+  digitalWrite(9, LOW);
+}
+
+void allOn(){
+  digitalWrite(13, HIGH);
+  digitalWrite(12, HIGH);
+  digitalWrite(11, HIGH);
+  digitalWrite(10, HIGH);
+  digitalWrite(9, HIGH);
+}
